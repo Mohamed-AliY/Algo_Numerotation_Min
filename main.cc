@@ -34,6 +34,9 @@ int main(){
 	Graph g2(5,7);
 	g2.afficheInfos();
 	g2.BFS(0);
+	g2.getNumerotations();
+
+	g2.afficheNumerotations();
 
 
 }

@@ -182,6 +182,7 @@ void Graph::enumNumerot(int j){
 			Visites[k]=1;
 			numCourante[ordre[j]]=k;
 
+      //détection de dépassement de rang
 			list<int>::iterator i;
   			for (i = adjLists[ordre[j]].begin(); i != adjLists[ordre[j]].end(); ++i) {
   				int valLiaison=abs(numCourante[ordre[j]]-numCourante[*i]);
