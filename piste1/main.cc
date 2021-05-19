@@ -35,7 +35,7 @@ int main(){
 	g.afficheNumerotations();
 
 	cout<<"---------------------------------"<<endl;
-	Graph g2(5,7);
+	Graph g2(6,5);
 	g2.afficheInfos();
 	g2.BFS(0);
 	g2.getNumerotations();

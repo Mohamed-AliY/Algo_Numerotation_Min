@@ -26,31 +26,44 @@ Graph::Graph(int vertices) {
 Graph::Graph(int vertices, int edges){
 
 	numVertices = vertices;
-  	adjLists = new list<int>[vertices];
-  	ordre=new int[vertices];
+  adjLists = new list<int>[vertices];
+  ordre=new int[vertices];
 
 	numCourante=new int[vertices];
 	std::default_random_engine re(time(0));
 	std::uniform_int_distribution<int> distrib{0,vertices-1};
 
-  //on relie les sommets numero 0 à vertices-1
-	for (int i=0;i<vertices;i++){
-		//int vertex1=distrib(re);
-		int vertex2=distrib(re);
-    while(!((find(adjLists[i].begin(),adjLists[i].end(),vertex2)==adjLists[i].end()) && (i != vertex2)))
-      vertex2=distrib(re);
-    addEdge(i,vertex2);
- 		
-
-	}
-  // on crée les arêtes restantes au hasard
-  if (edges>vertices){
-    for(int j=vertices;j<edges;j++){
-      int vertex1=distrib(re);
-      int vertex2=distrib(re);
-      while (!((find(adjLists[vertex1].begin(),adjLists[vertex1].end(),vertex2)==adjLists[vertex1].end()) && (vertex1 != vertex2)))
+  // dans le cas où il y a plus de sommets que d'arêtes
+  if(edges<numVertices-1){
+    cout<<"Erreur: nombre d'arêtes trop petit"<<endl;
+    cout<<"Nombre de sommets mis à (edge number+1) "<<endl;
+  }
+  //alignement des sommets
+  else if (edges==numVertices-1){
+    for(int j=0;j<edges;j++){
+      addEdge(j,j+1);
+    }
+  }
+  else{
+    //on relie les sommets numero 0 à vertices-1
+  	for (int i=0;i<vertices;i++){
+  		//int vertex1=distrib(re);
+  		int vertex2=distrib(re);
+      while(!((find(adjLists[i].begin(),adjLists[i].end(),vertex2)==adjLists[i].end()) && (i != vertex2)))
         vertex2=distrib(re);
-      addEdge(vertex1,vertex2);
+      addEdge(i,vertex2);
+   		
+
+  	}
+    // on crée les arêtes restantes au hasard
+    if (edges>vertices){
+      for(int j=vertices;j<edges;j++){
+        int vertex1=distrib(re);
+        int vertex2=distrib(re);
+        while (!((find(adjLists[vertex1].begin(),adjLists[vertex1].end(),vertex2)==adjLists[vertex1].end()) && (vertex1 != vertex2)))
+          vertex2=distrib(re);
+        addEdge(vertex1,vertex2);
+      }
     }
   }
 
@@ -187,8 +200,7 @@ void Graph::enumNumerot(int j){
 	int rang2=rangNum;
 	vector<int> Vis2(Visites);
 	for (int k=0;k<numVertices;k++){
-		//debug
-		//afficheVariables(j,k);
+
 		Visites=Vis2;
 		if (!(Visites[k])){
 			
@@ -206,7 +218,6 @@ void Graph::enumNumerot(int j){
   					sortie=1;//on prépare l'élimination d’office de la numérotation, on passe à la suivante
   				}
   				else if ((valLiaison>rangNum) && (valLiaison<numVertices+1)){
-  					cout<<"mise a j rangNum"<<endl;//debug
   					rangNum=valLiaison;
   				}
 
@@ -222,24 +233,17 @@ void Graph::enumNumerot(int j){
   			//méthode find présente dans algorithm
   			if (find(Visites.begin(),Visites.end(),0)==Visites.end()){
 
-  				//debug
-  				cout<<"_______"<<endl;
-  				cout<<"| AJOUT |"<<endl;
-  				cout<<"_______"<<endl;
+  				// //debug
+  				// cout<<"_______"<<endl;
+  				// cout<<"| AJOUT |"<<endl;
+  				// cout<<"_______"<<endl;
 
   				list<int> numerotationList=numerotTableToList();
   				if(rangNum==bestRang){
-  					//debug
-  					cout<<"_______"<<endl;
-  					cout<<"| push_back |"<<endl;
-  					cout<<"_______"<<endl;
   					numMin.push_back(numerotationList);
   				}
   				else{
-  					//debug
-  					cout<<"_______"<<endl;
-  					cout<<"| clear |"<<endl;
-  					cout<<"_______"<<endl;	
+
   					numMin.clear();
   					bestRang=rangNum;
   					numMin.push_back(numerotationList);
