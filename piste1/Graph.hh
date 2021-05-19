@@ -11,6 +11,7 @@ les numérotations minimales obtenues.
 //destructeur
 //séparer en fichiers
 //temps d'exécution ( comparer a algo intuitif)
+//epurer code=>affichages, noms var, modularité
 //augmenter visibilité tests=catch.hpp
 // eventuellement chercher outil visualisation graphe
 
