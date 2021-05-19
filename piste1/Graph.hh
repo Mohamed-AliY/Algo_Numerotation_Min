@@ -21,6 +21,7 @@ les numérotations minimales obtenues.
 #include <vector>
 #include <algorithm>
 #include <random>
+#include <chrono>
 
 using namespace std;
 

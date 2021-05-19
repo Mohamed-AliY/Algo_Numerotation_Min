@@ -32,16 +32,18 @@ int main(){
 	cout<<"---------------------"<<endl;
 	g.getNumerotations();
 
-	g.afficheNumerotations();
 
 	cout<<"---------------------------------"<<endl;
 	Graph g2(6,5);
 	g2.afficheInfos();
-	g2.BFS(0);
 	g2.getNumerotations();
 
-	g2.afficheNumerotations();
-
+	cout<<"---------------------------------"<<endl;
+	//exemple sur plusieurs graphes
+	for(int i=0;i<4;i++){
+		Graph(4,4).getNumerotations();
+		cout<<"---------------------------------"<<endl;
+	}
 
 
 }

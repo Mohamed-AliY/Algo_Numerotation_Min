@@ -25,18 +25,18 @@ Graph::Graph(int vertices) {
 //créer des instances aléatoires
 Graph::Graph(int vertices, int edges){
 
-	numVertices = vertices;
+  numVertices = vertices;
   adjLists = new list<int>[vertices];
   ordre=new int[vertices];
 
-	numCourante=new int[vertices];
-	std::default_random_engine re(time(0));
-	std::uniform_int_distribution<int> distrib{0,vertices-1};
+  numCourante=new int[vertices];
+  std::default_random_engine re(std::chrono::system_clock::now().time_since_epoch().count());
+  std::uniform_int_distribution<int> distrib{0,vertices-1};
 
   // dans le cas où il y a plus de sommets que d'arêtes
   if(edges<numVertices-1){
     cout<<"Erreur: nombre d'arêtes trop petit"<<endl;
-    cout<<"Nombre de sommets mis à (edge number+1) "<<endl;
+    cout<<"Nombre de sommets mis à (edge number+1)"<<endl;
   }
   //alignement des sommets
   else if (edges==numVertices-1){
@@ -44,6 +44,8 @@ Graph::Graph(int vertices, int edges){
       addEdge(j,j+1);
     }
   }
+
+  //nombre de sommets inférieur ou egal au nombre d'arêtes
   else{
     //on relie les sommets numero 0 à vertices-1
   	for (int i=0;i<vertices;i++){
@@ -71,8 +73,8 @@ Graph::Graph(int vertices, int edges){
     Visites.push_back(0);
     numCourante[i]=2*numVertices;
   }
-	bestRang=vertices;
- 	rangNum=0;
+  bestRang=vertices;
+  rangNum=0;
   sortie=0;
 }
 
@@ -156,8 +158,10 @@ void Graph::afficheNumerotations(){
 		for(it2=(*it).begin();it2!=(*it).end();it2++){
 			cout<<*it2<<",";
 		}
+
 		cout<<"),";
 	}
+
 	cout<<"]"<<endl;
 	cout<<"Rang minimal: "<<bestRang<<endl;
 	cout<<"Rang numerotation courante: "<<rangNum<<endl;
@@ -207,10 +211,11 @@ void Graph::enumNumerot(int j){
 			//on désaffecte les numéros pour les sommets non visités
 			for (int l=j+1;l<numVertices;l++)
 				numCourante[ordre[l]]=2*numVertices;
+
 			Visites[k]=1;
 			numCourante[ordre[j]]=k;
 
-      //détection de dépassement de rang
+      		//détection de dépassement de rang
 			list<int>::iterator i;
   			for (i = adjLists[ordre[j]].begin(); i != adjLists[ordre[j]].end(); ++i) {
   				int valLiaison=abs(numCourante[ordre[j]]-numCourante[*i]);
@@ -222,7 +227,7 @@ void Graph::enumNumerot(int j){
   				}
 
   			}
-  			//passage à numérotation suivante
+  			//passage à la numérotation suivante
   			if(sortie){
   				sortie=0;
   				continue;
@@ -270,8 +275,11 @@ void Graph::CorrigeNumerotation(){
 	}
 }
 
+//appelle BFS et algorithme d'énumération avec une seule fonction
 void Graph::getNumerotations(){
+	BFS(0);
 	enumNumerot(0);
 	CorrigeNumerotation();
+	afficheNumerotations();
 }
 
