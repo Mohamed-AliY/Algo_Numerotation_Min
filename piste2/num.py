@@ -1,5 +1,6 @@
 from tools import *
 import copy
+from time import *
 #---------------------------------------------------------------------
 # count : le compteur de numérotation
 # il s'incrémente lors qu'il y a une nouvelle façon de numérotation
@@ -22,6 +23,7 @@ def add_numeroter(tabS):
     global count
     _tabS = copy.copy(tabS)
     if _tabS not in all_numeroter:
+        # ajoute une numérotation réussite
         all_numeroter.append(_tabS)
         count += 1
         show_tabS(_tabS)
@@ -52,14 +54,15 @@ def debut(tabA, n):
     global count
     mark = False
     for r in range(1, n):
-        for a in range(1, n+1):
-            tabS[0] = a
-            visit[a] = True
-            successeur(r, 0, tabA, n)
-            if count > 0:
-                mark = True
-            clean_tabS(n) # met en zéro tabS[]
-            clean_visit(n) # met en zéro visit[]
+        for i in range(n):
+            for a in range(1, n+1):
+                tabS[i] = a
+                visit[a] = True
+                successeur(r, i, tabA, n)
+                if count > 0 :
+                    mark = True
+                clean_tabS(n) # met en zéro tabS[]
+                clean_visit(n) # met en zéro visit[]
         if mark:
             return r
     return -1
@@ -105,7 +108,6 @@ def successeur(r, sommet, tabA, n):
                     visit[value] = True
                     # vérifier si touts les sommets sont numérotés
                     if check_all_visit(n):
-                        # ajoute une numérotation réussite
                         add_numeroter(tabS)
                         tabS[i] = 0
                         visit[value] = False
@@ -118,7 +120,7 @@ def successeur(r, sommet, tabA, n):
 if __name__ == '__main__':
 
 	# n : Nombre de sommets
-    n = 5
+    n = 6
 
 	#---------------------------------------------------------------------
 	# tabA : Tableau des arrets correspondent à l'arrete entre les sommets
@@ -144,11 +146,12 @@ if __name__ == '__main__':
     #	[0,0,1,0]
     #	]
     tabA = [
-        [0,0,1,0,1],
-        [0,0,1,1,1],
-        [1,1,0,0,1],
-        [0,1,0,0,1],
-        [1,1,1,1,0]
+        [0,0,1,1,1,1],
+        [0,0,1,0,1,0],
+        [1,1,0,0,1,0],
+        [1,0,0,0,1,0],
+        [1,1,1,1,0,0],
+        [1,0,0,0,0,0]
     ]
     tabA2 = [
         [0,1,1,0,0,0,1,0],
@@ -162,8 +165,11 @@ if __name__ == '__main__':
     ]
     init_tabS(n)
     init_visit(n)
-
+    begin_time = perf_counter()
     res = debut(tabA,n)
+    end_time = perf_counter()
+
     print('\nle rang minimal est : {0}\n'.format(res))
     print('{0} numerotors'.format(count))
+    print('running  time: {0}ms'.format(end_time-begin_time))
 
