@@ -14,14 +14,17 @@ count = 0
 all_numeroter = []
 
 #---------------------------------------------------------------------
-# add_numeroter(tabS) : fonction ajoute une possibilité de numérotation
+# add_numeroter(tabS) : fonction ajoute une numérotation
 # dans le tableau all_numeroter
 #---------------------------------------------------------------------
 def add_numeroter(tabS):
     global all_numeroter
+    global count
     _tabS = copy.copy(tabS)
     if _tabS not in all_numeroter:
         all_numeroter.append(_tabS)
+        count += 1
+        show_tabS(_tabS)
 
 #---------------------------------------------------------------------
 # debut(tabA, n) : 
@@ -92,7 +95,6 @@ def debut(tabA, n):
 #
 #---------------------------------------------------------------------
 def successeur(r, sommet, tabA, n):
-    global count
     for i in range(n):
         if (tabA[sommet][i] == 1) & (tabS[i] == 0):
             for value in range(1, n+1):
@@ -103,8 +105,6 @@ def successeur(r, sommet, tabA, n):
                     visit[value] = True
                     # vérifier si touts les sommets sont numérotés
                     if check_all_visit(n):
-                        count += 1
-                        show_tabS(n)
                         # ajoute une numérotation réussite
                         add_numeroter(tabS)
                         tabS[i] = 0
@@ -129,31 +129,37 @@ if __name__ == '__main__':
 	#---------------------------------------------------------------------
     # graphe aligné
 
-    tabA = [
-        [0,1,0,0,0],
-        [1,0,1,0,0],
-        [0,1,0,1,0],
-        [0,0,1,0,1],
-        [0,0,0,1,0]
-    ]
+    #tabA = [
+    #    [0,1,0,0,0],
+    #    [1,0,1,0,0],
+    #    [0,1,0,1,0],
+    #    [0,0,1,0,1],
+    #    [0,0,0,1,0]
+    #]
 
-	#tabA = [
+    #tabA = [
     #	[0,1,1,0],
     #	[1,0,1,0],
     #	[1,1,0,1],
     #	[0,0,1,0]
-   	#]
-    
-	#tabA = [
-	#    [0,1,1,0,0,0,1,0],
-	#    [1,0,0,1,0,0,0,1],
-	#    [1,0,0,1,1,0,0,0],
-	#    [0,1,1,0,0,1,0,0],
-	#    [0,0,1,0,0,1,1,0],
-	#    [0,0,0,1,1,0,0,1],
-	#    [1,0,0,0,1,0,0,1],
-	#    [0,1,0,0,0,1,1,0]
-    #]
+    #	]
+    tabA = [
+        [0,0,1,0,1],
+        [0,0,1,1,1],
+        [1,1,0,0,1],
+        [0,1,0,0,1],
+        [1,1,1,1,0]
+    ]
+    tabA2 = [
+        [0,1,1,0,0,0,1,0],
+        [1,0,0,1,0,0,0,1],
+        [1,0,0,1,1,0,0,0],
+        [0,1,1,0,0,1,0,0],
+        [0,0,1,0,0,1,1,0],
+        [0,0,0,1,1,0,0,1],
+        [1,0,0,0,1,0,0,1],
+        [0,1,0,0,0,1,1,0]
+    ]
     init_tabS(n)
     init_visit(n)
 

@@ -3,6 +3,7 @@
 # le 1er élément du tabS indique la numérotation du 1er sommets
 #---------------------------------------------------------------------
 tabS = []
+#_tabS= []
 
 #---------------------------------------------------------------------
 # visit[n+1] : tableau de visit
@@ -35,9 +36,9 @@ def init_visit(n):
 # show_tabS(n) :
 # affiche le tabS[] donc la numérotaion
 #---------------------------------------------------------------------
-def show_tabS(n):
-    for i in range(n):
-        print(tabS[i], end = " ")
+def show_tabS(_tabS):
+    for i in range(len(_tabS)):
+        print(_tabS[i], end = " ")
     print("\n--------")
 
 #---------------------------------------------------------------------
