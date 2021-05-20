@@ -20,4 +20,4 @@ $(EXEC): $(OBJ)
 -include .depends
 
 clean:
-	rm -f $(OBJ) $(EXEC)
+	rm -f $(OBJ) $(EXEC) resultatsPiste1.txt

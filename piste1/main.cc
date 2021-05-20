@@ -4,46 +4,48 @@ Programme de test
 */
 
 #include "Graph.hh"
+#include <fstream>
 
 int main(){
-	Graph g(4);
-	g.addEdge(0,1);
-	g.addEdge(0,2);
-	g.addEdge(1,2);
-	g.addEdge(2,3);
-	cout<<"---------------------"<<endl;
-	cout<<"Premier BFS:"<<endl;
-	g.BFS(0);
+	// //Pour créer un graphe à la main
+	// Graph g(4);
+	// g.addEdge(0,1);
+	// g.addEdge(0,2);
+	// g.addEdge(1,2);
+	// g.addEdge(2,3);
+
+	// g.getNumerotations();
+
+	// //un graphe au hasard de 5 sommets et 7 arêtes
+	// Graph g2(5,7);
+	// g2.getNumerotations();
 
 
-	// cout<<"---------------------"<<endl;
-	// cout<<"2e BFS:"<<endl;
-	// g.BFS(1);
-	// cout<<"---------------------"<<endl;
-	// cout<<"3eme BFS:"<<endl;
-	// g.BFS(2);
-	// cout<<"---------------------"<<endl;
-	// cout<<"4e BFS:"<<endl;
-	// g.BFS(3);
+	// //pour calculer le temps d'exécution et le stocker dans un fichier
+	// cout<<"---------------------------------"<<endl;
+	// ofstream flux("resultatsPiste1.txt");
+	// if(flux){
+	// 	flux<<"Temps relevés en us pour différentes graphes"<<endl;
+	// 	for(int j=4;j<=10;j++){
+	// 		flux<<"---------------------------------"<<endl;
+	// 		flux<<"V="<<j<<", E="<<j+2<<endl;
+	// 		//exemple sur plusieurs graphes
+	// 		for(int i=0;i<8;i++){
+	// 			std::chrono::high_resolution_clock::time_point a= std::chrono::high_resolution_clock::now();
+	// 			Graph(j,j+2).getNumerotations();
+	// 			std::chrono::high_resolution_clock::time_point b= std::chrono::high_resolution_clock::now();
+	// 			unsigned int time= std::chrono::duration_cast<std::chrono::microseconds>(b - a).count();
+	// 			cout<<"temps de calcul: "<<time<<"us"<<endl;
+	// 			cout<<"---------------------------------"<<endl;
+	// 			flux<<time<<endl;
+	// 		}
+	// 	}
+	// }
+	// else
+ //    {
+ //        cout << "ERREUR: Impossible d'ouvrir le fichier." << endl;
+ //    }
 
-
-	cout<<"---------------------"<<endl;
-	g.afficheOrdre();
-	cout<<"---------------------"<<endl;
-	g.getNumerotations();
-
-
-	cout<<"---------------------------------"<<endl;
-	Graph g2(6,5);
-	g2.afficheInfos();
-	g2.getNumerotations();
-
-	cout<<"---------------------------------"<<endl;
-	//exemple sur plusieurs graphes
-	for(int i=0;i<4;i++){
-		Graph(4,4).getNumerotations();
-		cout<<"---------------------------------"<<endl;
-	}
 
 
 }

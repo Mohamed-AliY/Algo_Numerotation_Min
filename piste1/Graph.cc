@@ -44,30 +44,82 @@ Graph::Graph(int vertices, int edges){
       addEdge(j,j+1);
     }
   }
-
-  //nombre de sommets inférieur ou egal au nombre d'arêtes
   else{
-    //on relie les sommets numero 0 à vertices-1
+  	vector<int> Connect;
+
+  	vector<int> Disconnect;
+  	int sommet1,sommet2;
+  	int valeur=distrib(re);
+  	Connect.push_back(valeur);
   	for (int i=0;i<vertices;i++){
-  		//int vertex1=distrib(re);
-  		int vertex2=distrib(re);
-      while(!((find(adjLists[i].begin(),adjLists[i].end(),vertex2)==adjLists[i].end()) && (i != vertex2)))
-        vertex2=distrib(re);
-      addEdge(i,vertex2);
+  		if (i!=valeur)
+  			Disconnect.push_back(i);
+  	}
+  	//tant que pas tous les sommets sont connectés
+  	while(!Disconnect.empty()){
+
+  		std::uniform_int_distribution<int> distrib2{0,(int)Connect.size()-1};
+
+  		std::uniform_int_distribution<int> distrib3{0,(int)Disconnect.size()-1};
+  		sommet1=distrib2(re);
+  		sommet2=distrib3(re);
+
+       //  while (!((find(adjLists[Connect[sommet1]].begin(),adjLists[Connect[sommet1]].end(),Disconnect[sommet2])==adjLists[Connect[sommet1]].end()) && (Connect[sommet1] != sommet2))){
+       //    sommet2=distrib3(re);
+      	//   sommet1=distrib2(re);
+      	// }
+      	addEdge(Connect[sommet1],Disconnect[sommet2]);
+
+		//retirer sommet2 de Disconnect et l'ajouter a Connect
+
+      	// vector<int>::iterator iter ;
+      	// for (iter=Disconnect.begin();iter!=Disconnect.end();iter++){
+      	// 	if (*iter=Disconnect[sommet2]){
+      	Connect.push_back(Disconnect[sommet2]);
+      	Disconnect.erase(Disconnect.begin()+sommet2);
+      	// 	}
+
+      }
+    // on crée les arêtes restantes au hasard
+    if(edges>=vertices){
+   		for(int j=vertices-1;j<edges;j++){
+        	int vertex1=distrib(re);
+        	int vertex2=distrib(re);
+        	while (!((find(adjLists[vertex1].begin(),adjLists[vertex1].end(),vertex2)==adjLists[vertex1].end()) && (vertex1 != vertex2))){
+        	  vertex1=distrib(re);
+        	  vertex2=distrib(re);
+        	 }
+        	addEdge(vertex1,vertex2);
+        }
+   	 }
+   }
+
+
+ 
+
+  // //nombre de sommets inférieur ou egal au nombre d'arêtes
+  // else{
+  //   //on relie les sommets numero 0 à vertices-1
+  // 	for (int i=0;i<vertices;i++){
+  // 		//int vertex1=distrib(re);
+  // 		int vertex2=distrib(re);
+  //     while(!((find(adjLists[i].begin(),adjLists[i].end(),vertex2)==adjLists[i].end()) && (i != vertex2)))
+  //       vertex2=distrib(re);
+  //     addEdge(i,vertex2);
    		
 
-  	}
-    // on crée les arêtes restantes au hasard
-    if (edges>vertices){
-      for(int j=vertices;j<edges;j++){
-        int vertex1=distrib(re);
-        int vertex2=distrib(re);
-        while (!((find(adjLists[vertex1].begin(),adjLists[vertex1].end(),vertex2)==adjLists[vertex1].end()) && (vertex1 != vertex2)))
-          vertex2=distrib(re);
-        addEdge(vertex1,vertex2);
-      }
-    }
-  }
+  // 	}
+  //   // on crée les arêtes restantes au hasard
+  //   if (edges>vertices){
+  //     for(int j=vertices;j<edges;j++){
+  //       int vertex1=distrib(re);
+  //       int vertex2=distrib(re);
+  //       while (!((find(adjLists[vertex1].begin(),adjLists[vertex1].end(),vertex2)==adjLists[vertex1].end()) && (vertex1 != vertex2)))
+  //         vertex2=distrib(re);
+  //       addEdge(vertex1,vertex2);
+  //     }
+  //   }
+  // }
 
   for(int i=0;i<vertices;i++){
     Visites.push_back(0);
@@ -117,7 +169,6 @@ void Graph::BFS(int startVertex) {
 
   while (!queue.empty()) {
     int currVertex = queue.front();
-    cout << "Visited " << currVertex << " ";
     queue.pop_front();
     ordre[j]=currVertex; //on remplit le tableau ordre
     j++;
@@ -130,13 +181,8 @@ void Graph::BFS(int startVertex) {
       }
     }
   }
-  cout<<endl;
-  //afficher ordre
-  //debug
-  cout<<"tableau ordre: [";
-  for(int k=0;k<numVertices;k++)
-  	cout<<ordre[k]<<" ";
-  cout<<"]"<<endl;
+
+
 }
 
 list<int> Graph::numerotTableToList(){
@@ -164,7 +210,6 @@ void Graph::afficheNumerotations(){
 
 	cout<<"]"<<endl;
 	cout<<"Rang minimal: "<<bestRang<<endl;
-	cout<<"Rang numerotation courante: "<<rangNum<<endl;
 }
 
 void Graph::afficheNumCourante(){
@@ -199,15 +244,14 @@ void Graph::afficheVariables(int j,int k){
 	cout<<"------------------------"<<endl;
 }
 
+
 //méthode de l'algorithme élaboré
 void Graph::enumNumerot(int j){
 	int rang2=rangNum;
 	vector<int> Vis2(Visites);
 	for (int k=0;k<numVertices;k++){
-
 		Visites=Vis2;
 		if (!(Visites[k])){
-			
 			//on désaffecte les numéros pour les sommets non visités
 			for (int l=j+1;l<numVertices;l++)
 				numCourante[ordre[l]]=2*numVertices;
@@ -238,10 +282,6 @@ void Graph::enumNumerot(int j){
   			//méthode find présente dans algorithm
   			if (find(Visites.begin(),Visites.end(),0)==Visites.end()){
 
-  				// //debug
-  				// cout<<"_______"<<endl;
-  				// cout<<"| AJOUT |"<<endl;
-  				// cout<<"_______"<<endl;
 
   				list<int> numerotationList=numerotTableToList();
   				if(rangNum==bestRang){
@@ -277,6 +317,7 @@ void Graph::CorrigeNumerotation(){
 
 //appelle BFS et algorithme d'énumération avec une seule fonction
 void Graph::getNumerotations(){
+	cout<<"---------------------------------"<<endl;
 	BFS(0);
 	enumNumerot(0);
 	CorrigeNumerotation();

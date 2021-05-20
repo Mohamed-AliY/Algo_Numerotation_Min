@@ -38,15 +38,19 @@ class Graph {
   		void afficheInfos();
   		int* getOrdre(){return ordre;};
   		list<int> numerotTableToList();
+
+  		//méthodes d'affichage
   		void afficheNumerotations();
   		void afficheNumCourante();
   		void afficheOrdre();
   		void afficheVisites();
   		void afficheVariables(int j,int k);
+
+
   		void CorrigeNumerotation();
   		void getNumerotations();
 
-  		//méthodes pour l'algorithme
+  		//méthodes apparaîssant dans l'algorithme
   		void BFS(int startVertex);
   		void enumNumerot(int j);
 
@@ -54,9 +58,10 @@ class Graph {
   		int numVertices;
   		list<int>* adjLists;
   		bool* Marque;
-  		int* ordre;
 
-  		//eventuellement déplacer	
+
+  		//variables de l'algorithme
+  		int* ordre;	
   		list<list<int>> numMin;
   		int* numCourante;
   		vector<int> Visites;
